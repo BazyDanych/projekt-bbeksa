@@ -1,0 +1,7 @@
+DROP TABLE Postać;
+
+DROP TABLE Ekwipunek;
+
+DROP TABLE Statystyki;
+
+DROP TABLE Gracz;

@@ -1,0 +1,87 @@
+INSERT INTO Serwer VALUES (1, 'EU 1', 'Berin, Niemcy', 5900);
+
+INSERT INTO Świat VALUES (10, 1, 'Mroczny las', 1);
+INSERT INTO Świat VALUES (11, 1, 'Chata pustelnika', 1);
+
+INSERT INTO Gldia VALUES (900, 'Niszczyciele światów', 3);
+
+INSERT INTO Gracz VALUES (101, 1, 900, 100000, 'AnrzdzejPogromca', 'Wielbicielkotow321@wp.pl');
+INSERT INTO Gracz VALUES (102, 1, NULL, 100001, 'WalecznyMaciej', 'Macius12@wp.pl');
+
+INSERT INTO `Historia mikroplatnosci` VALUES (100000, '2019-10-12', 200000);
+INSERT INTO `Historia mikroplatnosci` VALUES (100002, '2020-02-12', 200001);
+INSERT INTO `Historia mikroplatnosci` VALUES (100001, '2020-05-04', 200001);
+
+INSERT INTO Zakup VALUES (200000, 'Ostrze mistrza', 1500, '4.99', 801000, 1011);
+INSERT INTO Zakup VALUES (200001, 'Mikstura wicznej sily', 750, '0,99', 805000, 5023);
+
+INSERT INTO Kategoria premium VALUES (801000, 'Bron');
+INSERT INTO `Kategoria premium` VALUES (805000, 'Mikstura');
+
+INSERT INTO `Typ przedmiotu` VALUES (1000, 'Bron');
+INSERT INTO `Typ przedmiotu` VALUES (2000, 'Pancerz');
+INSERT INTO `Typ przedmiotu` VALUES (3000, 'Amulet');
+INSERT INTO `Typ przedmiotu` VALUES (4000, 'Pierscien');
+INSERT INTO `Typ przedmiotu` VALUES (5000, 'Mikstura');
+INSERT INTO `Typ przedmiotu` VALUES (6000, 'Smiec');
+
+INSERT INTO `Bonusy do statystyk` VALUES (9001, 10, NULL, NULL, NULL);
+INSERT INTO `Bonusy do statystyk` VALUES (9051, 5, 5, 5, 5);
+INSERT INTO `Bonusy do statystyk` VALUES (9092, 10, NULL, 30, NULL);
+
+INSERT INTO Przedmiot VALUES (1011, 'Ostrze mistrza', 1500, 220, NULL, NULL, 1000, 0);
+INSERT INTO Przedmiot VALUES (5023, 'Mikstura wicznej sily', 750, NULL, NULL, 9001, 5000, 1);
+INSERT INTO Przedmiot VALUES (6001, 'Pusta butelka', 3, NULL, NULL, NULL, 6000, 0);
+INSERT INTO Przedmiot VALUES (2003, 'Skorzana zbroja', 820, NULL, 55, NULL, 2000, 0);
+INSERT INTO Przedmiot VALUES (2004, 'Zbroja plytowa', 1420, NULL, 125, NULL, 2000, 0);
+INSERT INTO Przedmiot VALUES (2008, 'Stara zbroja', 120, NULL, 15, NULL, 2000, 0);
+INSERT INTO Przedmiot VALUES (1001, 'Drewniany miecz', 100, 20, NULL, NULL, 1000, 0);
+INSERT INTO Przedmiot VALUES (4122, 'Pierscien bohatera', 205, NULL, NULL, 9051, 4000, 0);
+INSERT INTO Przedmiot VALUES (3051, 'Amulet wojownika', 1000, NULL, NULL, 9092, 3000, 0);
+
+INSERT INTO Postać VALUES (10001, 101, 11, 'Polski Woj', 2, 1200, 872, 90001, 70001, 80001);
+INSERT INTO Postać VALUES (10002, 101, 10, 'Polski Mag', 1, 300, 1046, 90002, 70002, 80002);
+INSERT INTO Postać VALUES (10022, 102, 10, 'Wielki Garry', 32, 308620, 93, 90012, 70012, 80012);
+
+INSERT INTO Ekwipunek VALUES (70001, 1001, 2003, NULL, NULL);
+INSERT INTO Ekwipunek VALUES (70002, 1001, NULL, NULL, 4122);
+INSERT INTO Ekwipunek VALUES (70012, 1011, 2003, 3051, 4122);
+
+INSERT INTO Statystyki VALUES (90001, 12, 43, 7, 5, NULL);
+INSERT INTO Statystyki VALUES (90002, 5, 20, 9, 25, 9051);
+INSERT INTO Statystyki VALUES (90012, 89, 340, 69, 40, 9092);
+
+INSERT INTO Plecak VALUES (80001, 22, NULL);
+INSERT INTO Plecak VALUES (80002, 19, NULL);
+INSERT INTO Plecak VALUES (80012, 27832, 200);
+
+INSERT INTO `Plecak-Zawartość` VALUES (80001, 5023);
+INSERT INTO `Plecak-Zawartość` VALUES (80002, NULL);
+INSERT INTO `Plecak-Zawartość` VALUES (80012, 6001);
+INSERT INTO `Plecak-Zawartość` VALUES (80012, 2003);
+
+INSERT INTO NPC VALUES (900002, 11, 'Pustelnik', 990001);
+INSERT INTO NPC VALUES (900001, 10, 'Mysliwy', NULL);
+
+INSERT INTO Handlarz VALUES (901001, 10, 0);
+
+INSERT INTO `Handlarz-towar` VALUES (901001, 2003);
+INSERT INTO `Handlarz-towar` VALUES (901001, 1001);
+
+INSERT INTO Potwory VALUES (905002, 10, 'Mlody wilk', 1, 9, 2, 0, 25, 5, 1, 0, NULL);
+INSERT INTO Potwory VALUES (905003, 10, 'Maly goblin', 1, 8, 3, 1, 25, 5, 1, 1, 1001);
+INSERT INTO Potwory VALUES (905004, 10, 'goblin mag', 4, 25, 5, 5, 80, 25, 1, 0, NULL);
+INSERT INTO Potwory VALUES (905005, 11, 'Wojownik goblin', 4, 25, 5, 1, 100, 25, 1, 0, NULL);
+
+INSERT INTO Zadanie VALUES (909001, 1, 50, 10, 'Wyczyszczenie chaty');
+
+INSERT INTO `Zadanie-Nagroda` VALUES (909001, 4122);
+
+
+
+
+
+
+
+
+
