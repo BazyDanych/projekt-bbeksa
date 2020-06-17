@@ -1,0 +1,21 @@
+Definicja:
+CREATE TRIGGER ustaw_date_zakupu
+BEFORE INSERT ON `Historia mikroplatnosci`
+FOR EACH ROW 
+
+SET NEW.Data_zakupu = CURRENT_DATE;
+
+
+Przykład użycia:
+INSERT INTO `Historia mikroplatnosci` VALUES (100010, '2020-05-21', 200000);
+Query OK, 1 row affected (0.04 sec)
+
+SELECT * FROM `Historia mikroplatnosci`;
++----------------------------+-------------+----------+
+| ID_historia_mikroplatnosci | Data_zakupu | ID_zakup |
++----------------------------+-------------+----------+
+|                     100000 | 2019-10-12  |   200000 |
+|                     100001 | 2020-05-04  |   200001 |
+|                     100002 | 2020-02-12  |   200001 |
+|                     100010 | 2020-05-23  |   200000 |<- Data jest inna niż przy wprowadzaniu
++----------------------------+-------------+----------+

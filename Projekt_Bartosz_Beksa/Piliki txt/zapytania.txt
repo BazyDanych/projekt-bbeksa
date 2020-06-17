@@ -1,0 +1,55 @@
+POZYTYWNE 
+Gracze i ich postacie:
+SELECT G.Nazwa, P.Nazwa, Poziom FROM Gracz AS G INNER JOIN Postać AS P ON G.ID_gracz = P.ID_gracz ORDER BY G.Nazwa;
+
+Zbroje z większą odpornoscia od starej zbroi:
+SELECT ID_przedmiot, Nazwa, Odporność FROM Przedmiot WHERE Odporność > (SELECT Odporność FROM Przedmiot WHERE ID_przedmiot = 2008);
+
+Ilość przedmiotu danego typu:
+SELECT ID_typ, COUNT(ID_przedmiot) FROM Przedmiot GROUP BY ID_typ;
+SELECT ID_typ, COUNT(ID_przedmiot) FROM Przedmiot GROUP BY ID_typ ORDER BY COUNT(ID_przedmiot) DESC;
+
+Wszystkie przedioty:
+SELECT ID_przedmiot, Nazwa, Wartość FROM Przedmiot;
+
+Gobliny wsród potworów:
+SELECT ID_mob, Nazwa FROM Potwory WHERE Nazwa like '%goblin%' ORDER BY Nazwa DESC;
+
+Przedmioty bez bonusów do statystyk:
+SELECT ID_przedmiot, Nazwa, Wartość FROM Przedmiot WHERE ID_bonusydostatystyk IS NULL;
+
+średnia wartość przedmiotów:
+SELECT AVG(Wartość) FROM Przedmiot;
+
+Największy poziom postaci graczy:
+SELECT G.Nazwa, MAX(Poziom) FROM Postać AS P JOIN Gracz AS G ON G.ID_Gracz=P.ID_Gracz GROUP BY G.Nazwa;
+
+Całkowita siła postaci z bonusem z przedmiotów:
+SELECT ID_Postać, Nazwa, Siła+`Bonus do siły` AS SIŁA FROM Postać AS P 
+	JOIN Statystyki AS S ON P.ID_Statystyki=S.ID_Statystyki
+	JOIN `Bonusy do statystyk` AS B ON S.ID_bonusydostatystyk=B.ID_bonusydostatystyk;
+
+Różnica dni między zakupami:
+SELECT DATEDIFF((SELECT `Data zakupu` FROM `Historia mikroplatnosci` WHERE ID_historia_mikroplatnosci=100001), (SELECT `Data zakupu` FROM `Historia mikroplatnosci` WHERE ID_historia_mikroplatnosci=100002)) AS `Roznica w dniach miedzy zakupami`;
+
+
+NEGARYWNE
+Wszystkie postacie bez tych na 1 poziomie:
+1.SELECT Nazwa, Poziom FROM Postać WHERE Poziom NOT IN (SELECT Poziom FROM Postać WHERE Poziom=1);
+2.SELECT P1.Nazwa, P1.Poziom FROM Postać AS P1 WHERE NOT EXISTS (SELECT P2.Nazwa, P2.Poziom FROM Postać AS P2 WHERE P1.Poziom=1);
+
+
+Użycie widoku:
+CREATE VIEW `Lista potworow` AS SELECT ID_mob, Nazwa FROM Potwory; 
+SELECT * FROM `Lista potworow`;
+
+
+Aktualizacja wierszy w tabeli.
+UPDATE Potwory SET Pancerz = Pancerz + 1 WHERE ID_mob = 905004;
+UPDATE Serwer SET Lokalizacja = 'Paryz, Francja' WHERE ID_serwer = 2;
+
+
+Usuwaie danych z tabel:
+DELETE FROM Postać WHERE ID_Postać = 10002;
+DELETE FROM Potwory;
+

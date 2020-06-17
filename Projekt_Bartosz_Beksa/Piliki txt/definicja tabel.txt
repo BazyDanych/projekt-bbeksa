@@ -1,0 +1,227 @@
+CREATE TABLE `Serwer` (
+  `ID_serwer` int(11) NOT NULL AUTO_INCREMENT,
+  `Nazwa` varchar(255) NOT NULL,
+  `Lokalizacja` varchar(255) NOT NULL,
+  `Max_graczy` int(11) NOT NULL,
+  PRIMARY KEY (`ID_serwer`)
+);
+
+CREATE TABLE `Świat` (
+  `ID_świat` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_serwer` int(11) NOT NULL,
+  `Nazwa` varchar(255) NOT NULL,
+  `minimalny poziom aby wejsc` int(11) NOT NULL,
+  PRIMARY KEY (`ID_świat`),
+  KEY `Świat_fk0` (`ID_serwer`),
+  CONSTRAINT `Świat_fk0` FOREIGN KEY (`ID_serwer`) REFERENCES `Serwer` (`ID_serwer`)
+);
+
+CREATE TABLE `Gildia` (
+  `ID_gildia` int(11) NOT NULL AUTO_INCREMENT,
+  `Nazwa` varchar(255) NOT NULL,
+  `Pozycja w rankingu` int(25) NOT NULL,
+  PRIMARY KEY (`ID_gildia`)
+);
+
+CREATE TABLE `Typ przedmiotu` (
+  `ID_typ` int(11) NOT NULL AUTO_INCREMENT,
+  `Typ` varchar(255) NOT NULL,
+  PRIMARY KEY (`ID_typ`)
+)
+
+CREATE TABLE `Bonusy do statystyk` (
+  `ID_bonusydostatystyk` int(11) NOT NULL AUTO_INCREMENT,
+  `Bonus do siły` int(11) DEFAULT NULL,
+  `Bonus do zręczności` int(11) DEFAULT NULL,
+  `Bonus do życia` int(11) DEFAULT NULL,
+  `Bonus do many` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID_bonusydostatystyk`)
+)
+
+CREATE TABLE `Przedmiot` (
+  `ID_przedmiot` int(11) NOT NULL AUTO_INCREMENT,
+  `Nazwa` varchar(255) NOT NULL,
+  `Wartość` int(11) NOT NULL,
+  `Obrażenia` int(11) DEFAULT NULL,
+  `Odporność` int(11) DEFAULT NULL,
+  `ID_bonusydostatystyk` int(11) DEFAULT NULL,
+  `ID_typ` int(11) NOT NULL,
+  `Czy_używalny` tinyint(1) NOT NULL,
+  PRIMARY KEY (`ID_przedmiot`),
+  KEY `Przedmiot_fk0` (`ID_bonusydostatystyk`),
+  KEY `Przedmiot_fk1` (`ID_typ`),
+  CONSTRAINT `Przedmiot_fk0` FOREIGN KEY (`ID_bonusydostatystyk`) REFERENCES `Bonusy do statystyk` (`ID_bonusydostatystyk`),
+  CONSTRAINT `Przedmiot_fk1` FOREIGN KEY (`ID_typ`) REFERENCES `Typ przedmiotu` (`ID_typ`)
+)
+
+CREATE TABLE `Kategoria Premium` (
+  `ID_kategoria_premium` int(11) NOT NULL AUTO_INCREMENT,
+  `Kategoria` varchar(255) NOT NULL,
+  PRIMARY KEY (`ID_kategoria_premium`)
+)
+
+CREATE TABLE `Zakup` (
+  `ID_zakup` int(11) NOT NULL AUTO_INCREMENT,
+  `Nazwa` varchar(255) NOT NULL,
+  `Wartość w grze` int(11) NOT NULL,
+  `Wartość w PLN` float NOT NULL,
+  `ID_kategoria_premium` int(11) NOT NULL,
+  `ID_przedmiot` int(11) NOT NULL,
+  PRIMARY KEY (`ID_zakup`),
+  KEY `Zakup_fk0` (`ID_kategoria_premium`),
+  KEY `Zakup_fk1` (`ID_przedmiot`),
+  CONSTRAINT `Zakup_fk0` FOREIGN KEY (`ID_kategoria_premium`) REFERENCES `Kategoria Premium` (`ID_kategoria_premium`),
+  CONSTRAINT `Zakup_fk1` FOREIGN KEY (`ID_przedmiot`) REFERENCES `Przedmiot` (`ID_przedmiot`)
+)
+
+CREATE TABLE `Historia mikroplatnosci` (
+  `ID_historia_mikroplatnosci` int(11) NOT NULL AUTO_INCREMENT,
+  `Data zakupu` date NOT NULL,
+  `ID_zakup` int(11) NOT NULL,
+  PRIMARY KEY (`ID_historia_mikroplatnosci`),
+  KEY `Historia mikroplatnosci_fk0` (`ID_zakup`),
+  CONSTRAINT `Historia mikroplatnosci_fk0` FOREIGN KEY (`ID_zakup`) REFERENCES `Zakup` (`ID_zakup`)
+)
+
+CREATE TABLE `Ekwipunek` (
+  `ID_Ekwipunek` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_Broń` int(11) DEFAULT NULL,
+  `ID_Pancerz` int(11) DEFAULT NULL,
+  `ID_Amulet` int(11) DEFAULT NULL,
+  `ID_Pierścień` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID_Ekwipunek`),
+  KEY `Ekwipunek_fk0` (`ID_Broń`),
+  KEY `Ekwipunek_fk1` (`ID_Pancerz`),
+  KEY `Ekwipunek_fk2` (`ID_Amulet`),
+  KEY `Ekwipunek_fk3` (`ID_Pierścień`),
+  CONSTRAINT `Ekwipunek_fk0` FOREIGN KEY (`ID_Broń`) REFERENCES `Przedmiot` (`ID_przedmiot`),
+  CONSTRAINT `Ekwipunek_fk1` FOREIGN KEY (`ID_Pancerz`) REFERENCES `Przedmiot` (`ID_przedmiot`),
+  CONSTRAINT `Ekwipunek_fk2` FOREIGN KEY (`ID_Amulet`) REFERENCES `Przedmiot` (`ID_przedmiot`),
+  CONSTRAINT `Ekwipunek_fk3` FOREIGN KEY (`ID_Pierścień`) REFERENCES `Przedmiot` (`ID_przedmiot`)
+)
+
+CREATE TABLE `Plecak` (
+  `ID_Plecak` int(11) NOT NULL AUTO_INCREMENT,
+  `Złoto` int(11) DEFAULT NULL,
+  `Waluta Premium` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID_Plecak`)
+)
+
+CREATE TABLE `Plecak-Zawartość` (
+  `ID_Plecak` int(11) NOT NULL,
+  `ID_przedmiot` int(11) DEFAULT NULL,
+  KEY `Plecak-Zawartość_fk0` (`ID_Plecak`),
+  KEY `Plecak-Zawartość_fk1` (`ID_przedmiot`),
+  CONSTRAINT `Plecak-Zawartość_fk0` FOREIGN KEY (`ID_Plecak`) REFERENCES `Plecak` (`ID_Plecak`),
+  CONSTRAINT `Plecak-Zawartość_fk1` FOREIGN KEY (`ID_przedmiot`) REFERENCES `Przedmiot` (`ID_przedmiot`)
+)
+
+CREATE TABLE `Statystyki` (
+  `ID_statystyki` int(11) NOT NULL AUTO_INCREMENT,
+  `Siła` int(11) NOT NULL,
+  `Życie` int(11) NOT NULL,
+  `Zręczność` int(11) NOT NULL,
+  `Mana` int(11) NOT NULL,
+  `ID_bonusydostatystyk` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID_statystyki`),
+  KEY `Statystyki_fk0` (`ID_bonusydostatystyk`),
+  CONSTRAINT `Statystyki_fk0` FOREIGN KEY (`ID_bonusydostatystyk`) REFERENCES `Bonusy do statystyk` (`ID_bonusydostatystyk`)
+)
+
+CREATE TABLE `Postać` (
+  `ID_Postać` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_gracz` int(11) NOT NULL,
+  `ID_świat` int(11) NOT NULL,
+  `Nazwa` varchar(255) NOT NULL,
+  `Poziom` int(11) NOT NULL,
+  `Punkty doświadczenia` int(11) NOT NULL,
+  `Miejsce w rankingu` int(11) NOT NULL,
+  `ID_Statystyki` int(11) NOT NULL,
+  `ID_Ekwipunek` int(11) NOT NULL,
+  `ID_Plecak` int(11) NOT NULL,
+  PRIMARY KEY (`ID_Postać`),
+  KEY `Postać_fk0` (`ID_gracz`),
+  KEY `Postać_fk1` (`ID_świat`),
+  KEY `Postać_fk2` (`ID_Statystyki`),
+  KEY `Postać_fk3` (`ID_Ekwipunek`),
+  KEY `Postać_fk4` (`ID_Plecak`),
+  CONSTRAINT `Postać_fk0` FOREIGN KEY (`ID_gracz`) REFERENCES `Gracz` (`ID_gracz`),
+  CONSTRAINT `Postać_fk1` FOREIGN KEY (`ID_świat`) REFERENCES `Świat` (`ID_świat`),
+  CONSTRAINT `Postać_fk2` FOREIGN KEY (`ID_Statystyki`) REFERENCES `Statystyki` (`ID_statystyki`),
+  CONSTRAINT `Postać_fk3` FOREIGN KEY (`ID_Ekwipunek`) REFERENCES `Ekwipunek` (`ID_Ekwipunek`),
+  CONSTRAINT `Postać_fk4` FOREIGN KEY (`ID_Plecak`) REFERENCES `Plecak` (`ID_Plecak`)
+);
+
+CREATE TABLE `Zadanie` (
+  `ID_zadanie` int(11) NOT NULL AUTO_INCREMENT,
+  `Czy_fabularne` tinyint(1) NOT NULL,
+  `Nagroda doświadczenie` int(11) NOT NULL,
+  `Nagroda złoto` int(11) DEFAULT NULL,
+  `Nazwa` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID_zadanie`)
+)
+
+CREATE TABLE `Zadanie-Nagroda` (
+  `ID_zadanie` int(11) NOT NULL,
+  `ID_przedmiot` int(11) DEFAULT NULL,
+  KEY `Zadanie-Nagroda_fk0` (`ID_zadanie`),
+  KEY `Zadanie-Nagroda_fk1` (`ID_przedmiot`),
+  CONSTRAINT `Zadanie-Nagroda_fk0` FOREIGN KEY (`ID_zadanie`) REFERENCES `Zadanie` (`ID_zadanie`),
+  CONSTRAINT `Zadanie-Nagroda_fk1` FOREIGN KEY (`ID_przedmiot`) REFERENCES `Przedmiot` (`ID_przedmiot`)
+)
+
+CREATE TABLE `NPC` (
+  `ID_NPC` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_świat` int(11) NOT NULL,
+  `Nazwa` varchar(255) NOT NULL,
+  `ID_zadanie` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID_NPC`),
+  KEY `NPC_fk0` (`ID_świat`),
+  KEY `NPC_fk1` (`ID_zadanie`),
+  CONSTRAINT `NPC_fk0` FOREIGN KEY (`ID_świat`) REFERENCES `Świat` (`ID_świat`),
+  CONSTRAINT `NPC_fk1` FOREIGN KEY (`ID_zadanie`) REFERENCES `Zadanie` (`ID_zadanie`)
+)
+
+CREATE TABLE `Handlarz` (
+  `ID_handlarz` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_świat` int(11) NOT NULL,
+  `czy_ulepsza_przedmioty` tinyint(1) NOT NULL,
+  PRIMARY KEY (`ID_handlarz`),
+  KEY `Handlarz_fk0` (`ID_świat`),
+  CONSTRAINT `Handlarz_fk0` FOREIGN KEY (`ID_świat`) REFERENCES `Świat` (`ID_świat`)
+)
+
+CREATE TABLE `Handlarz-towar` (
+  `ID_handlarz` int(11) NOT NULL,
+  `ID_przedmiot` int(11) DEFAULT NULL,
+  KEY `Handlarz-towar_fk0` (`ID_handlarz`),
+  KEY `Handlarz-towar_fk1` (`ID_przedmiot`),
+  CONSTRAINT `Handlarz-towar_fk0` FOREIGN KEY (`ID_handlarz`) REFERENCES `Handlarz` (`ID_handlarz`),
+  CONSTRAINT `Handlarz-towar_fk1` FOREIGN KEY (`ID_przedmiot`) REFERENCES `Przedmiot` (`ID_przedmiot`)
+)
+
+CREATE TABLE `Potwory` (
+  `ID_mob` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_świat` int(11) NOT NULL,
+  `Nazwa` varchar(255) NOT NULL,
+  `Poziom` int(11) NOT NULL,
+  `Obrażenia` int(11) NOT NULL,
+  `Pancerz` int(11) NOT NULL,
+  `Odporność przed magią` int(11) NOT NULL,
+  `Ile daje doświadczenia` int(11) NOT NULL,
+  `Ile daje złota` int(11) NOT NULL,
+  `Czy agresywny` tinyint(1) NOT NULL,
+  `Czy wyrzuca przedmiot` tinyint(1) NOT NULL,
+  `ID_przedmiot` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID_mob`),
+  KEY `Potwory_fk0` (`ID_świat`),
+  KEY `Potwory_fk1` (`ID_przedmiot`),
+  CONSTRAINT `Potwory_fk0` FOREIGN KEY (`ID_świat`) REFERENCES `Świat` (`ID_świat`),
+  CONSTRAINT `Potwory_fk1` FOREIGN KEY (`ID_przedmiot`) REFERENCES `Przedmiot` (`ID_przedmiot`)
+);
+
+
+
+
+
+
